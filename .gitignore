@@ -1,0 +1,20 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints
+
+# Environment
+.env
+venv/
+env/
+.venv/
+
+# Large raw datasets (not to be committed to GitHub)
+raw_images/
+*.jpg
+*.zip
+
+# Operating System files
+.DS_Store
+Thumbs.db

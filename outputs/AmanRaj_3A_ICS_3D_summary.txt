@@ -1,0 +1,8 @@
+EDHITHA TASK 3A - 3D RECONSTRUCTION REPORT
+==================================================
+Candidate: Aman Raj (Subteam: ICS)
+Total Triangulated 3D Points: 17,905
+Stereo Baseline Camera Poses: 105
+Elevation Range (Z): -85.72m to 14.94m (Span: 100.66m)
+Methodology: Structure-from-Motion (SfM) via SIFT feature matching, Essential Matrix RANSAC, SVD Pose Recovery, and DLT Triangulation.
+Output Deliverable Format: Stanford Triangle Mesh / Point Cloud (.PLY) with 24-bit TrueColor RGB vertices.

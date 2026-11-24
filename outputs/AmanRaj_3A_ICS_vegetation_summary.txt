@@ -1,0 +1,16 @@
+EDHITHA TASK 3A - VEGETATION ANALYSIS REPORT
+==================================================
+Candidate: Aman Raj (Subteam: ICS)
+Analyzed Image: AmanRaj_3A_ICS_orthomosaic.png
+Total Terrain Pixels: 20,192,094
+
+BIOMASS CLASSIFICATION BREAKDOWN:
+- Dense Vegetation (Green):  25.01% (5,050,699 px)
+- Sparse Vegetation (Yellow): 40.00% (8,076,817 px)
+- No Vegetation (Red):        34.99% (7,064,578 px)
+
+INDEX THRESHOLD CALIBRATION:
+- Index Used: Green Leaf Index (GLI) = (2G - R - B) / (2G + R + B)
+- Low Cutoff (Sparse Threshold): 0.0167 (35.0th percentile)
+- High Cutoff (Dense Threshold): 0.0817 (75.0th percentile)
+- Mean GLI: 0.0532
