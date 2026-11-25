@@ -1,6 +1,6 @@
 # Task 3A: Aerial Mapping, Orthomosaic Generation & Remote Sensing Analytics
 
-**Candidate:** Aman Raj  
+**Author / Developer:** Aman Raj (Me)  
 **Sub-Team:** Imagery & Cyber Systems (ICS)  
 **Project:** Project Edhitha UAS Recruitment Assignment  
 **Scene Surveyed:** Institutional Sports Complex / Campus Ground  
@@ -97,7 +97,7 @@ Thresholds are grounded in physical zero-crossing and Otsu's inter-class varianc
 
 ## ⚖️ Comparative Pipeline Trade-offs: Custom Python vs. Multi-View SfM (e.g. WebODM)
 
-| Dimension | Custom Python Pipeline (Aman Raj) | Multi-View SfM / MVS (e.g. WebODM) |
+| Dimension | My Custom Python Pipeline (Aman Raj) | Multi-View SfM / MVS (e.g. WebODM) |
 | :--- | :--- | :--- |
 | **Algorithmic Scope** | 2D Sequential Feature Tracking & Affine Homography Alignment | Full 3D Multi-View Stereo Bundle Adjustment (OpenSfM + OpenMVS) |
 | **Computational Complexity**| Linear $\mathcal{O}(N)$ sequential pairwise image matching | Combinatorial $\mathcal{O}(N^2)$ global camera graph optimization |
