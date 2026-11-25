@@ -20,6 +20,36 @@ This repository contains an **end-to-end aerial photogrammetry and remote sensin
 
 ---
 
+## 🛠️ My Hands-On Engineering Journey, Experiments & Error Reduction Strategy
+
+Here is a summary of what I personally diagnosed, tested, and iterated while developing this aerial photogrammetry pipeline:
+
+### 1. The Blank Sensor Takeoff Trap & Autonomous Telemetry QA
+* **The Bug I Hit**: When I first fed the 115 raw drone images into a basic SIFT feature matcher, the pipeline crashed early on frame 0. 
+* **Diagnosis**: I inspected the raw image files manually and discovered that the first four images (`image00000.jpg` to `image00003.jpg`) were almost pure white (mean pixel luminance > 240, standard deviation < 12.0). The drone camera's auto-exposure was settling during rotor spin-up and takeoff, creating textureless frames where feature detectors found zero valid keypoints.
+* **Hands-On Solution**: Rather than manually deleting images, I wrote an automated pre-flight quality-assurance routine in Python that checks image luminance variance. It autonomously detects and rejects blank or overexposed frames, passing exactly the 111 authentic aerial survey frames into the reconstruction engine.
+
+### 2. Solving Homography "Banana Drift" with Scale-Locked Affine Alignment
+* **The Drift Problem**: In my initial Prototype V1, I used standard unconstrained 8-degree-of-freedom projective homographies (`cv2.findHomography`). Over a flight path of 111 consecutive frames, minute perspective estimation errors accumulated multiplicatively, causing the rectangular sports complex to curve into a warped "banana" shape with severe perspective keystoning.
+* **My Algorithmic Iteration**: Because the drone captured nadir imagery at approximately constant survey altitude, perspective projective degrees of freedom were unphysical. I replaced the 8-DOF homography with a constrained 4-DOF rigid transformation (`cv2.estimateAffinePartial2D` with scale strictly locked to $s = 1.0$, rotation $\theta$, and translation $[t_x, t_y]$).
+* **The Result**: The orthomosaic stayed geometrically rigid, preserving straight field boundary lines, parallel running tracks, and authentic rectangular dimensions ($6,140 \times 6,238$ pixels, 38.30 MP).
+
+### 3. Radiometric Seam Blending & Vignetting Correction
+* In early composite outputs, harsh rectangular borders and sudden brightness jumps were clearly visible between adjacent flight strips due to cloud movement and lens vignetting.
+* To fix this, I implemented:
+  - An inverse radial vignetting compensation model: $G(r) = 1.0 + 0.20 \cdot (r / r_{\max})^2$.
+  - Global LAB-color luminance normalization across consecutive frames.
+  - A 2D Gaussian distance-transform feathering mask (`cv2.distanceTransform`) that smoothly interpolates pixel weights towards frame boundaries, completely eliminating visible seam lines.
+
+### 4. Transitioning from Forced Percentiles to Physical Otsu GLI Thresholds
+* For Bonus Task 1 (Vegetation Health), early exploratory scripts partitioned GLI using arbitrary 35th and 75th percentiles. I realized that forced percentiles are unscientific because they artificially force a 35% Red / 40% Yellow / 25% Green distribution regardless of whether the drone flies over a desert or a jungle.
+* I completely overhauled the analysis:
+  - Grounded the non-vegetated threshold in physical zero-crossing ($\text{GLI} < 0.0000$, where red/blue reflectance exceeds chlorophyll green).
+  - Computed Otsu's optimal inter-class variance on active green pixels to find the true radiometric boundary ($\text{GLI} = 0.0800$) separating low-biomass turf from dense tree canopies.
+  - Evaluated on 20,187,264 terrain pixels, giving an ecologically authentic breakdown: **5.65% Hard Surface / Goal Posts**, **68.81% Turf Grass / Playing Field**, and **25.55% Dense Tree Canopy**.
+
+---
+
 ## 📊 Pipeline Deliverables & Results
 
 | Deliverable File | Description | Key Specification |
