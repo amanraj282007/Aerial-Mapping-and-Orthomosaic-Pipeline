@@ -65,15 +65,19 @@ Thresholds are grounded in physical zero-crossing and Otsu's inter-class varianc
 
 ---
 
-## ⚖️ Comparative Pipeline Trade-offs: Custom Python vs. WebODM
+## ⚖️ Comparative Pipeline Trade-offs: Custom Python vs. Multi-View SfM (e.g. WebODM)
 
-| Dimension | Custom Python Pipeline (Aman Raj) | WebODM (OpenDroneMap Docker) |
+| Dimension | Custom Python Pipeline (Aman Raj) | Multi-View SfM / MVS (e.g. WebODM) |
 | :--- | :--- | :--- |
-| **Pipeline Architecture** | Transparent SIFT, FLANN Ratio Test, Rigid RANSAC, DLT | OpenSfM (SfM) + OpenMVS (Dense Meshing) in multi-container stack |
-| **Memory Footprint** | Bounded: ~1.18 GB RAM peak (zero host freezes) | Intense: Spikes to 8.5–11.2 GB RAM (94% host memory utilization) |
-| **Processing Runtime** | 114.3 seconds (Fast, deterministic turnaround) | 20+ minutes (Heavy multi-view stereo voxelization) |
-| **Anomaly Handling** | Autonomous variance filter drops blank takeoff frames | Sensitive to blank initial frames during early bundle adjustment |
-| **Edge SBC Viability** | Deployable on drone companion computers (NVIDIA Jetson / Pi 5) | Workstation/server dependent (heavy Docker daemon requirement) |
+| **Algorithmic Scope** | 2D Sequential Feature Tracking & Affine Homography Alignment | Full 3D Multi-View Stereo Bundle Adjustment (OpenSfM + OpenMVS) |
+| **Computational Complexity**| Linear $\mathcal{O}(N)$ sequential pairwise image matching | Combinatorial $\mathcal{O}(N^2)$ global camera graph optimization |
+| **Infrastructure Overhead** | Zero dependencies beyond standard Python (OpenCV, NumPy, SciPy) | Heavy containerized architecture (Docker daemon, Redis, Celery, Node) |
+| **Turnaround Time** | Rapid tactical turnaround (114.3 seconds end-to-end) | Extended processing due to dense voxel depth-map estimation |
+| **Artifact Behavior** | Fast 2D blending; exhibits parallax ghosting on elevated tree canopies | Eliminates parallax via true 3D DTM elevation mesh orthorectification |
+| **Input Data Robustness** | Automated luminance variance QA drops blank sensor takeoff frames | Vulnerable to initialization drift if uncalibrated blank frames are retained |
+
+### 🔍 Photogrammetric Artifact Analysis: Parallax Smearing vs. True Orthorectification
+A 2D affine homography pipeline models image alignment assuming an approximately planar terrain surface ($Z = 0$). In low-altitude aerial surveys, non-coplanar scene elements—notably elevated tree crowns and goalpost structures—exhibit optical parallax displacements across consecutive camera centers. When overlapping frames are combined via weighted distance feathering, this parallax displacement produces subtle local boundary ghosting / motion smearing. Full elimination of parallax smearing requires calculating a dense 3D Digital Terrain Model (DTM) to perform ray-traced true orthorectification, highlighting the engineering trade-off between ultra-fast 2D reconnaissance mapping (114s) and computationally intensive 3D surface meshing.
 
 ---
 
