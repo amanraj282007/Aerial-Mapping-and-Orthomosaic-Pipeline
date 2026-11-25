@@ -99,7 +99,7 @@ def run_3d_reconstruction(input_dir, output_dir, step=2, max_frames=50):
         [0.0, 0.0, 1.0]
     ], dtype=np.float64)
     
-    print(f"Calibrated Camera Intrinsics Matrix (scaled):\n{K}")
+    print(f"Nominal Pinhole Camera Intrinsics Matrix (scaled):\n{K}")
     
     # SIFT feature extraction
     print("\n[Phase 1/3] Extracting SIFT Keypoints across sampled frames...")

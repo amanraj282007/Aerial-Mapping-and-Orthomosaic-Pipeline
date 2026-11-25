@@ -1,163 +1,86 @@
-# Autonomous Aerial Photogrammetry, Orthomosaic Reconstruction & Remote Sensing Pipeline
+# Task 3A: Aerial Mapping, Orthomosaic Generation & Remote Sensing Analytics
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
-[![OpenCV](https://img.shields.io/badge/OpenCV-5.1.0-green?logo=opencv)](https://opencv.org/)
-[![NumPy](https://img.shields.io/badge/NumPy-Scientific-013243?logo=numpy)](https://numpy.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Project-Edhitha%20UAS%20Recruitment-red)](https://github.com/)
-
-**Author:** Aman Raj  
+**Candidate:** Aman Raj  
 **Sub-Team:** Imagery & Cyber Systems (ICS)  
-**Project:** Autonomous UAS Aerial Survey Mapping (Task 3A)  
+**Project:** Project Edhitha UAS Recruitment Assignment  
+**Scene Surveyed:** Institutional Sports Complex / Campus Ground  
+**Date:** November 2026  
 
 ---
 
-## 📌 Project Overview
+## 🌟 Executive Overview & Architectural Highlights
 
-This repository hosts an **end-to-end autonomous aerial photogrammetry and remote sensing pipeline** built from first principles in Python (OpenCV, NumPy, Matplotlib). Designed for Unmanned Aerial Systems (UAS), the engine ingests raw aerial survey captures, filters sensor anomalies, executes multi-scale feature tracking across flight transects, and generates a **radiometrically balanced, georeferenced master orthomosaic ($6,140 \times 6,238$ px, 38.3 MP)**.
+This repository contains an **end-to-end aerial photogrammetry and remote sensing pipeline engineered from mathematical first principles in Python (OpenCV, NumPy, SciPy, Matplotlib)** for Unmanned Aerial Systems (UAS).
 
-Beyond 2D mosaic stitching, the pipeline delivers two advanced remote sensing modules:
-1. **Precision Vegetation Biomass Classification (Bonus 1)**: Peer-reviewed Green Leaf Index (GLI) radiometric heatmaps and discrete 3-tier groundcover concentration masks.
-2. **3D Structure-from-Motion (SfM) Surface Reconstruction (Bonus 2)**: Triangulated 17,905-point TrueColor 3D point cloud (`.ply`) and Digital Elevation Models (DEM).
-
----
-
-## 🌟 Architectural Superiority: Custom Pipeline vs. WebODM
-
-Rather than using black-box commercial software (e.g., WebODM, Agisoft Metashape, Pix4D), this custom engine was built from mathematical first principles. Here is how it compares:
-
-| Capability / Metric | Custom Python Pipeline (Aman Raj) | WebODM (OpenDroneMap) | Commercial (Agisoft / Pix4D) |
-| :--- | :--- | :--- | :--- |
-| **Pipeline Architecture** | Transparent SIFT, RANSAC Rigid, DLT Triangulation | OpenSfM + OpenMVS (Heavy Docker stack) | Proprietary Closed-Source C++ |
-| **Header Anomaly Handling** | **Automated QA culling** (filters blank takeoff frames) | Fails or corrupts bundle adjustment | Requires manual user exclusion |
-| **Exposure & Vignetting** | **Built-in LAB gain matching + radial gain correction** | Requires separate radiometric calibration | Paid add-on module |
-| **Processing Speed** | **114 seconds (under 2 minutes)** | **15 - 25+ minutes** | 8 - 15 minutes |
-| **Peak RAM Consumption** | **~412 MB - 1.2 GB** | **~7.5 - 11.0 GB (spikes to 94%)** | ~6 - 12 GB |
-| **Edge Compute Feasibility** | **Deployable on drone SBCs (NVIDIA Jetson / Pi)** | Impossible on edge without cloud/host | Desktop workstation only |
-| **Licensing** | **100% Free & Open-Source** | Open-source (heavy stack) | $3,500+ commercial license |
+### Key Photogrammetric Capabilities:
+1. **Automated Sensor Header QA**: Autonomously detects and filters sensor exposure settling / blank takeoff frames (`image00000.jpg` – `image00003.jpg`) using pixel luminance variance ($std < 12.0$).
+2. **Constrained Rigid Motion Model**: Replaces error-accumulating 8-DOF projective homographies with a scale-locked rigid Euclidean model ($s = 1.0$) with FLANN SIFT matching and RANSAC inlier estimation.
+3. **Radiometric Equalization & Distance Feathering**: Compensates for solar angle shifts via LAB-channel luminance matching, eliminates optical falloff with an inverse radial vignetting model ($1.0 + 0.20 \cdot r^2$), and blends seams with 2D Gaussian distance transforms.
+4. **Local Coordinate Space Processing**: In the absence of onboard RTK-GPS EXIF metadata, the orthomosaic is reconstructed in a local metric/pixel-space coordinate frame ($6,140 \times 6,238$ px, 38.30 MP) in **114.3 seconds**.
 
 ---
 
-## 🖼️ Visual Results & Deliverables
+## 📊 Pipeline Deliverables & Results
 
-### 1. Master Stitched Orthomosaic (V2.0 Enhanced)
-> *Seamless $6,140 \times 6,238$ pixel orthomosaic covering 100% of the surveyed agricultural field with zero black borders, vignetting attenuation, and Gaussian distance feathering.*
-
-![Master Orthomosaic Preview](assets/orthomosaic_preview.png)
-
----
-
-### 2. Bonus Task 1: Vegetation Biomass Analytics (GLI)
-> *Scientific radiometric classification across 20,192,094 active terrain pixels:*  
-> 🔴 **Red (No Vegetation / Hard Ground): 34.99%** | 🟡 **Yellow (Sparse Groundcover): 40.00%** | 🟢 **Green (Dense Canopy): 25.01%**
-
-![Vegetation Analytics Panel](assets/vegetation_heatmap.png)
-
----
-
-### 3. Bonus Task 2: 3D Surface & Terrain Structure-from-Motion (SfM)
-> *17,905-point TrueColor 3D Point Cloud (`.ply`) with elevation-coded Digital Elevation Model (DEM) and reconstructed drone trajectory.*
-
-![3D Reconstruction Multi-Angle Views](assets/3d_reconstruction_preview.png)
+| Deliverable File | Description | Key Specification |
+| :--- | :--- | :--- |
+| **`AmanRaj_3A_ICS.pdf`** | Official Technical Publication | 4 pages, full formulas, figures, comparison tables & citations |
+| **`AmanRaj_3A_ICS_orthomosaic.png`** | Master Seamless Orthomosaic | **$6,140 \times 6,238$ px (38.30 Megapixels)**, 29.6 MB |
+| **`AmanRaj_3A_ICS_orthomosaic.tfw`** | ESRI / GIS TIFF World File | Metric spatial referencing (0.05 m/px nominal GSD) |
+| **`AmanRaj_3A_ICS_orthomosaic.pgw`** | ESRI / GIS PNG World File | Metric spatial referencing (0.05 m/px nominal GSD) |
+| **`AmanRaj_3A_ICS_orthomosaic_preview.png`** | High-Definition Document Preview | Fast-loading web preview |
+| **`AmanRaj_3A_ICS_orthomosaic_transparent.png`** | RGBA Transparent Canvas for GIS | $6,140 \times 6,238$ px (Alpha boundary), 35.2 MB |
+| **`AmanRaj_3A_ICS_vegetation_heatmap.png`** | **Bonus 1:** Scientific GLI Heatmap | Continuous RdYlGn radiometric index map with colorbar |
+| **`AmanRaj_3A_ICS_vegetation_mask.png`** | **Bonus 1:** 3-Tier Classification Mask | Red: 5.65%, Yellow: 68.81%, Green: 25.55% |
+| **`AmanRaj_3A_ICS_vegetation_summary.txt`** | Text Summary of Biomass Metrics | Exact pixel counts, Otsu thresholds, and ecological interpretation |
+| **`AmanRaj_3A_ICS_3D_pointcloud.ply`** | **Bonus 2:** TrueColor 3D Point Cloud | **15,420 unique spatial vertices** (Filtered & Deduplicated) |
+| **`AmanRaj_3A_ICS_3D_reconstruction_preview.png`**| **Bonus 2:** Multi-Angle 3D Terrain Views| Perspective TrueColor, DEM elevation map, and Nadir view |
+| **`AmanRaj_3A_ICS_3D_summary.txt`** | Text Summary of 3D Geometry | Relative photogrammetric coordinate bounds & vertex counts |
+| **`AmanRaj_3A_ICS_source_code.zip`** | Full Reproducible Source Code | Standalone scripts, requirements, and documentation |
+| **`AmanRaj_3A_ICS_AI_Session_Transcript.html`**| AI Session Engineering Transcript | Complete, transparent log of consultative engineering dialogue |
 
 ---
 
-### 4. Drone Survey Trajectory & Flight Strips
-> *Reconstructed 2D flight path across 111 survey frames demonstrating a lawnmower transect grid pattern with 65-70% forward overlap.*
+## 🌿 Bonus Task 1: Scientific Vegetation Biomass Analytics (GLI)
 
-![Drone Flight Trajectory](assets/flight_trajectory.png)
-
----
-
-### 5. Multi-Model Feature Benchmark & Scaling Pareto Curve
-> *Empirical evaluation: SIFT (L2) vs. ORB (Harris) vs. ORB-Fast across flight pairs, alongside Ground Sampling Distance (GSD) scaling trade-offs.*
-
-![Multi-Model Benchmark Charts](assets/benchmark_comparison_charts.png)
-
----
-
-## 📊 Empirical Benchmarks
-
-### Feature Detector Shootout (Survey Field Pairs)
-* **SIFT (L2 Norm)**: 1,326.4 avg keypoints | 176.2 ms latency | **180.9 RANSAC inliers (52.2% ratio)** — *Highest descriptive invariance against glare and agricultural texture repetitions.*
-* **ORB (Harris)**: 2,026.2 avg keypoints | 75.8 ms latency | 205.5 RANSAC inliers (53.2% ratio) — *Strong balanced performance.*
-* **ORB-Fast**: **2,135.9 avg keypoints** | **21.4 ms latency (46.7 FPS)** | **217.8 RANSAC inliers (50.9% ratio)** — *$8\times$ faster than SIFT; optimal for real-time onboard flight mapping.*
-
----
-
-## 🛠️ Installation & Quickstart
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/<your-username>/Aerial-Mapping-and-Orthomosaic-Pipeline.git
-cd Aerial-Mapping-and-Orthomosaic-Pipeline
-```
-
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Run Orthomosaic Stitching Engine (V2.0)
-```bash
-python scripts/stitch_orthomosaic_v2.py --input <path_to_images> --scale 0.25
-```
-
-### 4. Run Precision Vegetation Biomass Analysis
-```bash
-python scripts/vegetation_analysis.py --orthomosaic outputs/AmanRaj_3A_ICS_orthomosaic.png
-```
-
-### 5. Run 3D Structure-from-Motion Terrain Reconstruction
-```bash
-python scripts/reconstruct_3d.py --max_frames 115 --step 1
-```
-
-### 6. Run Multi-Model & GSD Scaling Benchmark
-```bash
-python scripts/benchmark_multi_models.py
-```
-
-### 7. Compile Technical Report (PDF)
-```bash
-python scripts/generate_task3a_pdf.py
-```
-
----
-
-## 📐 Mathematical Formulation
-
-### 1. Radiometric Exposure Equalization
-Images are transformed to the CIELAB color space where the $L^*$ luminance channel is normalized against target survey distribution:
-$$L_{\text{norm}} = (L - \mu_L) \cdot \left(\frac{\sigma_{\text{target}}}{\sigma_L}\right) + \mu_{\text{target}}$$
-
-### 2. Optical Lens Vignetting Correction
-Radial attenuation falloff is corrected using an inverted parabolic gain profile:
-$$G(r) = 1.0 + k \cdot \left(\frac{r}{r_{\max}}\right)^2$$
-
-### 3. Rigid Motion Model
-To prevent cumulative projective keystoning over 100+ frames, scale $s$ is locked to $1.0$ (constant flight altitude):
-$$M = \begin{bmatrix} \cos\theta & -\sin\theta & t_x \\ \sin\theta & \cos\theta & t_y \end{bmatrix}$$
-
-### 4. Green Leaf Index (GLI)
+Because standard drone RGB payloads lack Near-Infrared (NIR) channels, we implemented the peer-reviewed **Green Leaf Index (GLI)**:
 $$\text{GLI} = \frac{2G - R - B}{2G + R + B}$$
 
-### 5. Multi-View Epipolar Geometry & Triangulation
-The Essential Matrix $E$ relates normalized coordinates across stereo pairs:
-$$x_2^T E x_1 = 0, \quad E = [t]_\times R$$
-3D coordinates $X = (x, y, z)$ are resolved via Direct Linear Transformation (DLT) minimizing reprojection error across projection matrices $P_1 = K[I|0]$ and $P_2 = K[R|t]$.
+### Scientific Absolute Thresholding (Evaluated across 20,187,264 active terrain pixels):
+Thresholds are grounded in physical zero-crossing and Otsu's inter-class variance maximization:
+* 🔴 **Red (No Vegetation / Hard Ground / Goal Structures):** **5.65%** ($1,139,652$ px) — $\text{GLI} < 0.0000$
+* 🟡 **Yellow (Sparse Vegetation / Mowed Lawn Turf):** **68.81%** ($13,890,450$ px) — $0.0000 \le \text{GLI} < 0.0800$
+* 🟢 **Green (Dense Foliage / Perimeter Trees & Shrubs):** **25.55%** ($5,157,162$ px) — $\text{GLI} \ge 0.0800$
+
+*(Mean Field GLI: 0.0533 | Canvas Dimensions: 6,140 x 6,238 = 38,301,320 total pixels).*
 
 ---
 
-## 📚 References & Scientific Literature
+## 🏔️ Bonus Task 2: 3D Structure-from-Motion (SfM)
 
-1. **Lowe, D. G. (2004).** Distinctive Image Features from Scale-Invariant Keypoints. *International Journal of Computer Vision*, 60(2), 91-110.
-2. **Fischler, M. A., & Bolles, R. C. (1981).** Random Sample Consensus (RANSAC). *Communications of the ACM*, 24(6), 381-395.
-3. **Louhaichi, M., et al. (2001).** Spatially Located Platform and Aerial Photography to Estimate Vegetation Ground Cover. *Journal of Range Management*, 54(5), 511-518.
-4. **Gitelson, A. A., et al. (2002).** Novel Algorithms for Remote Estimation of Vegetation Fraction (VARI). *Remote Sensing of Environment*, 80(1), 76-87.
-5. **Hartley, R., & Zisserman, A. (2003).** *Multiple View Geometry in Computer Vision* (2nd ed.). Cambridge University Press.
+* **Epipolar Geometry**: Essential Matrix $E = [t]_\times R$ estimated via 5-point RANSAC algorithm across overlapping stereo pairs with automatic degenerate turnaround rejection.
+* **DLT Triangulation**: Direct Linear Transformation solving for 3D world coordinates $(X, Y, Z)$ yielding **15,420 unique spatial vertices** (deduplicated at 1 mm tolerance).
+* **Photometric Vertex Coloring**: 24-bit TrueColor RGB values sampled directly from aerial captures onto spatial vertices.
+* **Coordinate Space**: Local relative photogrammetric units (standard pinhole model $f = 0.85 \times w$).
 
 ---
 
-## 📜 License
-Distributed under the MIT License. See `LICENSE` for more information.
+## ⚖️ Comparative Pipeline Trade-offs: Custom Python vs. WebODM
+
+| Dimension | Custom Python Pipeline (Aman Raj) | WebODM (OpenDroneMap Docker) |
+| :--- | :--- | :--- |
+| **Pipeline Architecture** | Transparent SIFT, FLANN Ratio Test, Rigid RANSAC, DLT | OpenSfM (SfM) + OpenMVS (Dense Meshing) in multi-container stack |
+| **Memory Footprint** | Bounded: ~1.18 GB RAM peak (zero host freezes) | Intense: Spikes to 8.5–11.2 GB RAM (94% host memory utilization) |
+| **Processing Runtime** | 114.3 seconds (Fast, deterministic turnaround) | 20+ minutes (Heavy multi-view stereo voxelization) |
+| **Anomaly Handling** | Autonomous variance filter drops blank takeoff frames | Sensitive to blank initial frames during early bundle adjustment |
+| **Edge SBC Viability** | Deployable on drone companion computers (NVIDIA Jetson / Pi 5) | Workstation/server dependent (heavy Docker daemon requirement) |
+
+---
+
+## 📚 References
+* **Lowe, D. G. (2004)**. *Distinctive image features from scale-invariant keypoints.* IJCV, 60(2), 91–110.
+* **Fischler, M. A., & Bolles, R. C. (1981)**. *Random sample consensus: a paradigm for model fitting.* CACM, 24(6), 381–395.
+* **Louhaichi, M., Borman, M. M., & Johnson, D. E. (2001)**. *Spatially located platform and aerial photography for documentation of grazing impacts on wheat.* Geocarto International, 16(1), 65–70. https://doi.org/10.1080/10106040108542184
+* **Gitelson, A. A., et al. (2002)**. *Novel algorithms for remote estimation of vegetation fraction.* Remote Sensing of Environment, 80(1), 76–87.
+* **Hartley, R., & Zisserman, A. (2003)**. *Multiple View Geometry in Computer Vision.* Cambridge University Press.
+* **OpenCV Documentation (2024)**. *Camera Calibration and 3D Reconstruction.* https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html

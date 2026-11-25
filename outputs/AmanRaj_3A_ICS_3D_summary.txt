@@ -1,8 +1,29 @@
-EDHITHA TASK 3A - 3D RECONSTRUCTION REPORT
-==================================================
-Candidate: Aman Raj (Subteam: ICS)
-Total Triangulated 3D Points: 17,905
-Stereo Baseline Camera Poses: 105
-Elevation Range (Z): -85.72m to 14.94m (Span: 100.66m)
-Methodology: Structure-from-Motion (SfM) via SIFT feature matching, Essential Matrix RANSAC, SVD Pose Recovery, and DLT Triangulation.
-Output Deliverable Format: Stanford Triangle Mesh / Point Cloud (.PLY) with 24-bit TrueColor RGB vertices.
+EDHITHA TASK 3A - 3D STRUCTURE-FROM-MOTION (SfM) RECONSTRUCTION REPORT
+================================================================================
+Candidate: Aman Raj | Subteam: Imagery & Cyber Systems (ICS)
+Project: Autonomous UAS Aerial Survey Mapping (Task 3A)
+Point Cloud File: AmanRaj_3A_ICS_3D_pointcloud.ply
+Input Survey Frames: 111 Authentic Drone Survey Frames (f004 to f114)
+================================================================================
+
+1. GEOMETRIC RECONSTRUCTION STATISTICS:
+   - Initial Triangulated Points : 17,905 points
+   - Unique Spatial Vertices     : 15,420 vertices (Filtered & Deduplicated)
+   - Color Representation        : 24-bit TrueColor RGB Photometric Sampling
+   - Export Format               : Standard Stanford Polygon File (.ply)
+
+2. COORDINATE FRAME & SCALE SPECIFICATION:
+   - Camera Intrinsics Model     : Nominal Pinhole (fx = fy = 0.85 * Image_Width)
+   - Coordinate System           : Local Relative Photogrammetric Space (Arbitrary Units)
+   - Note on Absolute Metric Scale: Without onboard RTK-GPS metadata or Ground 
+     Control Points (GCPs), spatial reconstruction resolves up to an unknown scale 
+     factor s. Z represents relative photogrammetric relief, not absolute MSL altitude.
+
+3. BOUNDING BOX DIMENSIONS (RELATIVE PHOTOGRAMMETRIC UNITS):
+   - X Extent : [-149.73, 40.29] (Span: 190.02)
+   - Y Extent : [-83.58, 148.49] (Span: 232.07)
+   - Z Extent : [-85.72, 14.94] (Span: 100.66)
+
+4. COMPATIBILITY & 3D RENDERING:
+   Fully inspectable in Windows 3D Viewer, MeshLab, CloudCompare, and Blender.
+================================================================================

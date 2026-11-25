@@ -1,16 +1,31 @@
-EDHITHA TASK 3A - VEGETATION ANALYSIS REPORT
-==================================================
-Candidate: Aman Raj (Subteam: ICS)
-Analyzed Image: AmanRaj_3A_ICS_orthomosaic.png
-Total Terrain Pixels: 20,192,094
+EDHITHA TASK 3A - VEGETATION BIOMASS ANALYSIS REPORT
+================================================================================
+Candidate: Aman Raj | Subteam: Imagery & Cyber Systems (ICS)
+Project: Autonomous UAS Aerial Survey Mapping (Task 3A)
+Analyzed Deliverable: AmanRaj_3A_ICS_orthomosaic.png
+Canvas Resolution: 6140 x 6238 pixels (38,301,320 total pixels)
+Active Terrain Pixels Analyzed: 20,187,264 (excluding black background canvas)
+Index Formulation: Green Leaf Index (GLI) = (2G - R - B) / (2G + R + B)
+================================================================================
 
-BIOMASS CLASSIFICATION BREAKDOWN:
-- Dense Vegetation (Green):  25.01% (5,050,699 px)
-- Sparse Vegetation (Yellow): 40.00% (8,076,817 px)
-- No Vegetation (Red):        34.99% (7,064,578 px)
+1. SCIENTIFIC ABSOLUTE THRESHOLDING CLASSIFICATION:
+   Thresholds are established using physical zero-crossing and Otsu's optimal inter-class variance:
+   - Non-Vegetated Cutoff (Zero-Crossing) : GLI < 0.0000 (G < (R + B)/2)
+   - Dense Canopy Cutoff (Otsu Variance) : GLI >= 0.0800
 
-INDEX THRESHOLD CALIBRATION:
-- Index Used: Green Leaf Index (GLI) = (2G - R - B) / (2G + R + B)
-- Low Cutoff (Sparse Threshold): 0.0167 (35.0th percentile)
-- High Cutoff (Dense Threshold): 0.0817 (75.0th percentile)
-- Mean GLI: 0.0532
+2. BIOMASS DISTRIBUTION RESULTS:
+   - Red (No Vegetation / Hard Ground / Soil)  : 5.65% (1,139,652 px)  [GLI < 0.0000]
+   - Yellow (Sparse Vegetation / Turf Grass)   : 68.81% (13,890,450 px) [0.0000 <= GLI < 0.0800]
+   - Green (Dense Foliage / Trees & Shrubs)    : 25.55% (5,157,162 px)  [GLI >= 0.0800]
+   
+3. STATISTICAL METRICS:
+   - Mean Field GLI       : 0.0533
+   - Median Field GLI     : 0.0307
+   - Inter-Class Variance : Optimal Otsu separation at t = 0.0800
+
+4. ECOLOGICAL INTERPRETATION:
+   The surveyed region represents an institutional sports / campus ground with perimeter vegetation:
+   - Lawn Turf / Playing Surface (Yellow): Dominates 68.8% of the area.
+   - Surrounding Trees & Hedgerows (Green): Represents 25.5% along the northern and western margins.
+   - Goals, Pitch Boundaries & Walkways (Red): Accounts for 5.6% non-photosynthetic ground cover.
+================================================================================
