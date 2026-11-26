@@ -100,7 +100,7 @@ def create_task3a_pdf():
 
     # 1. Header Banner
     story.append(Paragraph("PROJECT EDHITHA UAS RECRUITMENT — ICS SUB-TEAM", title_style))
-    story.append(Paragraph("<b>Task 3A Technical Report:</b> Autonomous Aerial Photogrammetry, Orthomosaic Reconstruction, and Remote Sensing Analytics<br/><b>Candidate:</b> Aman Raj &nbsp;|&nbsp; <b>Sub-Team:</b> Imagery & Cyber Systems (ICS) &nbsp;|&nbsp; <b>Submission Date:</b> November 2026", subtitle_style))
+    story.append(Paragraph("<b>Task 3A Technical Report:</b> Autonomous Aerial Photogrammetry, Orthomosaic Reconstruction, and Remote Sensing Analytics<br/><b>Applicant:</b> Aman Raj &nbsp;|&nbsp; <b>Sub-Team Applied For:</b> Imagery & Cyber Systems (ICS), Team Edhitha &nbsp;|&nbsp; <b>Submission Date:</b> November 2026", subtitle_style))
     story.append(HRFlowable(width="100%", thickness=1.5, color=c_primary, spaceBefore=0, spaceAfter=6))
 
     # 2. Executive Summary
@@ -269,6 +269,9 @@ def create_task3a_pdf():
     ]
     for r in refs:
         story.append(Paragraph(r, bullet_style))
+
+    story.append(Spacer(1, 4))
+    story.append(Paragraph("<b>Applicant:</b> Aman Raj &nbsp;|&nbsp; <b>Sub-Team Applied For:</b> Imagery & Cyber Systems (ICS), Team Edhitha", body_style))
 
     doc.build(story)
     print(f"[✓] Technical Report PDF successfully generated: {pdf_path}")
