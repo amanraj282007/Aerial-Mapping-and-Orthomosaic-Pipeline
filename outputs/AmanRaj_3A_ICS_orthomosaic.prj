@@ -1,0 +1,6 @@
+LOCAL_CS["Local Metric Coordinate System",
+    LOCAL_DATUM["Local Survey Datum", 0],
+    UNIT["meter", 1.0],
+    AXIS["East", EAST],
+    AXIS["North", NORTH]
+]

@@ -58,6 +58,8 @@ Here is a summary of what I personally diagnosed, tested, and iterated while dev
 | **`AmanRaj_3A_ICS_orthomosaic.png`** | Master Seamless Orthomosaic | **$6,140 \times 6,238$ px (38.30 Megapixels)**, 29.6 MB |
 | **`AmanRaj_3A_ICS_orthomosaic.tfw`** | ESRI / GIS TIFF World File | Metric spatial referencing (0.05 m/px nominal GSD) |
 | **`AmanRaj_3A_ICS_orthomosaic.pgw`** | ESRI / GIS PNG World File | Metric spatial referencing (0.05 m/px nominal GSD) |
+| **`AmanRaj_3A_ICS_orthomosaic.prj`** | GIS Projection Definition (WKT) | Local Engineering Metric Grid CRS definition for QGIS/ArcGIS |
+| **`AmanRaj_3A_ICS_orthomosaic_utm43n.prj`** | Regional Projection (UTM 43N) | EPSG:32643 projection file for geographic GIS overlays |
 | **`AmanRaj_3A_ICS_orthomosaic_preview.png`** | High-Definition Document Preview | Fast-loading web preview |
 | **`AmanRaj_3A_ICS_orthomosaic_transparent.png`** | RGBA Transparent Canvas for GIS | $6,140 \times 6,238$ px (Alpha boundary), 35.2 MB |
 | **`AmanRaj_3A_ICS_vegetation_heatmap.png`** | **Bonus 1:** Scientific GLI Heatmap | Continuous RdYlGn radiometric index map with colorbar |
@@ -117,4 +119,7 @@ A 2D affine homography pipeline models image alignment assuming an approximately
 * **Louhaichi, M., Borman, M. M., & Johnson, D. E. (2001)**. *Spatially located platform and aerial photography for documentation of grazing impacts on wheat.* Geocarto International, 16(1), 65–70. https://doi.org/10.1080/10106040108542184
 * **Gitelson, A. A., et al. (2002)**. *Novel algorithms for remote estimation of vegetation fraction.* Remote Sensing of Environment, 80(1), 76–87.
 * **Hartley, R., & Zisserman, A. (2003)**. *Multiple View Geometry in Computer Vision.* Cambridge University Press.
-* **OpenCV Documentation (2024)**. *Camera Calibration and 3D Reconstruction.* https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html
+* **OpenCV SIFT Documentation (2024)**. *Introduction to SIFT (Scale-Invariant Feature Transform).* https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html
+* **OpenCV FLANN Documentation (2024)**. *Fast Library for Approximate Nearest Neighbors (FLANN) Matcher.* https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html
+* **OpenCV Transform Estimation Documentation (2024)**. *Affine and Partial Affine 2D Transformations (`cv2.estimateAffinePartial2D`).* https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html#gad7a1ab0eb1d7b1e847c5d9472e367808
+* **ESRI GIS World File Documentation (2024)**. *World files for raster datasets & WKT Spatial Referencing.* https://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-dataset/world-files-for-raster-datasets.htm

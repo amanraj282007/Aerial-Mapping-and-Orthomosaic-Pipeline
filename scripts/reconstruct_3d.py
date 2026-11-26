@@ -19,7 +19,8 @@ Methodology & Algorithms:
    and translation (t) vectors satisfying the cheirality condition (points in front of both cameras).
 4. Direct Linear Transformation (DLT) Triangulation:
    Solves for 3D world coordinates X = (x, y, z) by minimizing reprojection error
-   across ray intersections from calibrated camera projection matrices P1 and P2.
+   across ray intersections from nominal pinhole camera projection matrices P1 and P2
+   (utilizing standard uncalibrated focal scaling f ~ 0.85 * w).
 5. True-Color Photometric Sampling:
    Interpolates RGB pixel values from original high-resolution aerial imagery onto
    triangulated 3D spatial points.
